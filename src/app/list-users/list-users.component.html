@@ -1,0 +1,50 @@
+<div class="container mt-5" *ngIf="users.length>0">
+    <h2 class="text-center">Liste des Utilisateurs</h2>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">N°</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Email</th>
+          <th scope="col">Téléphone</th>
+          <th scope="col">Rôle</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of pagedUsers; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ user.nom }}</td>
+          <td>{{ user.prenom }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.telephone }}</td>
+          <td>{{ user.role }}</td>
+          <td *ngIf="!user.role || user.role === 'Non defini'">
+            <button type="button" *ngIf="user.role !== 'Non defini'" class="btn btn-warning" (click)="openDialogue(user.idUser,user.nom,user.prenom)" id="button_action_document_facture">Désactiver</button>
+             <button type="button" class="btn btn-danger" (click)="openDialog(user.idUser,user.nom,user.prenom)" id="button_action_document_facture">Inactif</button>
+          </td>
+          <td *ngIf="user.role === 'ADMIN'">
+            <button type="button" *ngIf="user.role !== 'Non defini'" class="btn btn-warning" (click)="openDialogue(user.idUser,user.nom,user.prenom)" id="button_action_document_facture">Désactiver</button>
+            <!-- <button type="button" class="btn btn-info" id="button_action_document_facture">Actif</button> -->
+         </td>
+         <td *ngIf="user.role === 'USER'">
+            <button type="button" *ngIf="user.role !== 'Non defini'" class="btn btn-warning" (click)="openDialogue(user.idUser,user.nom,user.prenom)" id="button_action_document_facture">Désactiver</button>
+            <!-- <button type="button" class="btn btn-info" id="button_action_document_facture">Actif</button> -->
+         </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12">
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="users.length" (pageChange)="updatePagedData()"></ngb-pagination>
+        </div>
+    </div> 
+    <button class="btn btn-secondary mt-3" (click)="goBack()">Revenir en arrière</button>
+  </div>
+  <div class="container mt-5" *ngIf="!users.length">
+    <div class="alert alert-warning text-center" role="alert" id="invalidInscription">
+        Aucun Utilisateur à afficher
+      </div>
+     <button class="btn btn-secondary mt-3" (click)="goBack()">Revenir en arrière</button>
+  </div>

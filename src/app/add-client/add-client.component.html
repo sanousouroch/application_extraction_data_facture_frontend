@@ -1,0 +1,109 @@
+<div class="modal-header">
+    <h4 class="modal-title">Ajouter un Client</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeDialog()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="clientForm" (ngSubmit)="onSubmit()">
+        <!-- Date d'Échéance -->
+        <div class="form-group">
+            <label for="DateEcheance">Date d'Échéance</label>
+            <input type="date" id="DateEcheance" class="form-control" formControlName="DateEcheance" required>
+            <div *ngIf="clientForm.get('DateEcheance')?.hasError('required')" class="text-danger">
+                Date d'Échéance est requise.
+            </div>
+        </div>
+
+        <!-- Numéro de Facture -->
+        <div class="form-group">
+            <label for="numeroFacture">Numéro de Facture</label>
+            <input type="text" id="numeroFacture" class="form-control" formControlName="numeroFacture" required>
+            <div *ngIf="clientForm.get('numeroFacture')?.hasError('required')" class="text-danger">
+                Numéro de Facture est requis.
+            </div>
+        </div>
+
+        <!-- Nom du Client -->
+        <div class="form-group">
+            <label for="nomclient">Nom du Client</label>
+            <input type="text" id="nomclient" class="form-control" formControlName="nomclient" required>
+            <div *ngIf="clientForm.get('nomclient')?.hasError('required')" class="text-danger">
+                Nom du Client est requis.
+            </div>
+        </div>
+
+        <!-- Montant HT -->
+        <div class="form-group">
+            <label for="MontantHT">Montant HT</label>
+            <input type="number" id="MontantHT" class="form-control" formControlName="MontantHT" min="0" required>
+            <div *ngIf="clientForm.get('MontantHT')?.hasError('required')" class="text-danger">
+                Montant HT est requis.
+            </div>
+            <div *ngIf="clientForm.get('MontantHT')?.hasError('min')" class="text-danger">
+                Montant HT doit être supérieur ou égal à 0.
+            </div>
+        </div>
+
+        <!-- Montant TTC -->
+        <div class="form-group">
+            <label for="MontantTTC">Montant TTC</label>
+            <input type="number" id="MontantTTC" class="form-control" formControlName="MontantTTC" min="0" required>
+            <div *ngIf="clientForm.get('MontantTTC')?.hasError('required')" class="text-danger">
+                Montant TTC est requis.
+            </div>
+            <div *ngIf="clientForm.get('MontantTTC')?.hasError('min')" class="text-danger">
+                Montant TTC doit être supérieur ou égal à 0.
+            </div>
+        </div>
+
+        <!-- Statut -->
+        <div class="form-group">
+            <label for="statut">Statut</label>
+            <select id="statut" class="form-control" formControlName="statut">
+                <option value="NON PAYE">NON PAYE</option>
+                <option value="PAYE">PAYE</option>
+            </select>
+            <div *ngIf="clientForm.get('statut')?.hasError('required')" class="text-danger">
+                Statut est requis.
+            </div>
+        </div>
+
+        <!-- Solde -->
+        <div class="form-group">
+            <label for="solde">Solde</label>
+            <input type="number" id="solde" class="form-control" formControlName="solde" min="0" required>
+            <div *ngIf="clientForm.get('solde')?.hasError('required')" class="text-danger">
+                Solde est requis.
+            </div>
+            <div *ngIf="clientForm.get('solde')?.hasError('min')" class="text-danger">
+                Solde doit être supérieur ou égal à 0.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="modePaiement">Mode de paiement</label>
+            <select id="modePaiement" class="form-control" formControlName="modePaiement">
+                <option value="Chèque">Chèque</option>
+                <option value="Espèce">Espèce</option>
+                <option value="Autre">Autre</option>
+            </select>
+            <div *ngIf="clientForm.get('modePaiement')?.hasError('required')" class="text-danger">
+                Mode de paiement est requis.
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary" [disabled]="clientForm.invalid">Ajouter Client</button>
+    </form>
+
+    <div *ngIf="response" style="color: blue;">
+        {{ response }}
+    </div>
+    <div *ngIf="reponse" style="color:red;">
+        {{ reponse }}
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeDialog()">Fermer</button>
+</div>

@@ -1,0 +1,57 @@
+#button_action_document_facture{
+  margin: 5px;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline; /* Si vous voulez un soulignement au survol */
+}
+
+.user-logo img {
+  display: block;
+  margin: 0 auto;
+}
+
+.img {
+  background-size: cover;
+}
+
+#invalidInscription{
+  margin: 50px;
+}
+
+.inactive-link {
+  color: rgb(129, 122, 208);
+  opacity: 0.76;
+}
+
+/* Styles pour les liens actifs */
+.active-link {
+  color: rgb(119, 10, 202);
+  font-weight: bold;
+  opacity: 1;
+}
+
+/* Autres styles pour améliorer l'apparence */
+.nav-link {
+  padding: 5px;
+  display: block;
+}
+
+.nav-link:hover {
+  text-decoration: none;
+  opacity: 0.8;
+}
+
+
+.nav-link a {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link mat-icon {
+  margin-right: 8px;
+}

@@ -1,0 +1,79 @@
+<div class="container mt-5">
+    <h2>Détails de la facture <span> <button (click)="getItemEdition(data.Id)" type="button" class="btn btn-warning">Editer</button> </span></h2>
+    <div class="row">
+      <div class="col-6">
+        <table class="table table-bordered table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Champ</th>
+              <th>Valeur</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Id</td>
+              <td>{{ data?.Id || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Nom du fournisseur</td>
+              <td>{{ data?.VENDOR_NAME || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>ID de réception de la facture</td>
+              <td>{{ data?.INVOICE_RECEIPT_ID || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Date de réception de la facture</td>
+              <td>{{ data?.INVOICE_RECEIPT_DATE || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Devise</td>
+              <td>{{ data?.CURRENCY || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Taux de change date de réception</td>
+              <td>{{ data?.TauxDeChange_INVOICE_RECEIPT_DATE || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Total date réception en {{data.CURRENCY}}</td>
+              <td>{{ data?.TOTAL_INVOICE_RECEIPT_DATE || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Total date réception en FCFA</td>
+              <td>{{ data?.TOTAL_INVOICE_RECEIPT_DATE_FCFA || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Date d'échéance</td>
+              <td>{{ data?.DUE_DATE || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Taux de change date d'échéance</td>
+              <td>{{ data?.TauxDeChange_DUE_DATE || 'néant' }}</td>
+            </tr>
+           
+            <tr>
+              <td>Total date d'échéance en FCFA</td>
+              <td>{{ data?.TOTAL_DUE_DATE_FCFA || 'néant' }}</td>
+            </tr>
+            <tr>
+              <td>Adresse</td>
+              <td>{{ data?.ADDRESS || 'néant' }}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+      <div class="col-6">
+        <div *ngIf="documentUrl" class="document-viewer mt-4">
+          <h3>Facture Sélectionnée</h3>
+          <iframe [src]="documentUrl" width="100%" height="600px" target="_blank"></iframe>
+        </div> 
+      </div>
+
+    </div>
+    <button class="btn btn-secondary mt-3" (click)="goBack()"  *ngIf="user.role==='ADMIN'">Revenir en arrière</button>
+    <div class="col-4"  *ngIf="user.role==='USER'">
+      <button class="btn btn-secondary mt-3" (click)="goToBack()">Revenir en arrière</button>
+    </div>
+  </div>
+  

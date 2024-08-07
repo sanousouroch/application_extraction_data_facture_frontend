@@ -1,0 +1,18 @@
+<!-- src/app/upload-clients-modal/upload-clients-modal.component.html -->
+
+<div class="modal-header">
+    <h4 class="modal-title">Téléverser des Clients</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeDialog()"></button>
+  </div>
+  <div class="modal-body">
+    <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
+    <button class="btn btn-primary mt-2" (click)="uploadClients()">Valider</button>
+    
+    <div *ngIf="message" class="mt-3" [ngClass]="{'text-success': message.includes('successfully'), 'text-danger': message.includes('Error')}">
+      {{ message }}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeDialog()">Fermer</button>
+  </div>
+  

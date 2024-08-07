@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <h2 class="text-center">Connexion</h2>
+    <h6 class="text-center">Entrer vos identifiants de connexion</h6>
+    <div class="row">
+      <div class="col-6 offset-3 login-form-container">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="identifier">Email ou Téléphone</label>
+            <input type="text" id="identifier" formControlName="identifier" class="form-control">
+            <div *ngIf="loginForm.get('identifier')?.invalid && loginForm.get('identifier')?.touched" class="text-danger">
+              <div *ngIf="loginForm.get('identifier')?.errors?.['required']">L'email ou le téléphone est requis.</div>
+              <div *ngIf="loginForm.get('identifier')?.errors?.['email'] && !loginForm.get('identifier')?.errors?.['pattern']">L'email doit être valide.</div>
+              <div *ngIf="loginForm.get('identifier')?.errors?.['pattern']">Le téléphone doit être valide.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" formControlName="password" class="form-control">
+            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+              Le mot de passe est requis.
+            </div>
+          </div>
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Se connecter</button>
+          </div>
+          <div class="col-12 text-center text-danger">
+            <a href="#" class="btn btn-link" (click)="onResetPassword()">Réinitialiser le mot de passe</a>
+            <a  class="btn btn-link" (click)="onClickRegister()">S'inscrire</a>
+          </div>
+        </form>
+        <div *ngIf="response" style="color: blue;">
+            {{ response }}
+        </div>
+        <div *ngIf="reponse" style="color:red;">
+            {{ reponse }}
+        </div>
+      </div>
+    </div>
+  </div>

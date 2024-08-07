@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row" id="formulaire_recherche" >
+      <div class="col-12">
+        <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+          <div class="form-row align-items-end">
+            <div class="form-group col-md-3">
+              <label for="supplier">Fournisseur</label>
+              <select id="supplier" class="form-control" formControlName="supplier" (change)="onSupplierChange()">
+                <option *ngFor="let supplier of uniqueSuppliers" [value]="supplier.VENDOR_NAME">
+                  {{ supplier.VENDOR_NAME }}
+                </option>
+              </select>
+              <div *ngIf="supplierForm.get('supplier')?.hasError('required')" class="text-danger">
+                Ce champ est requis
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="startDate">Date de début</label>
+              <input type="date" id="startDate" class="form-control" formControlName="startDate">
+              <div *ngIf="supplierForm.get('startDate')?.hasError('required')" class="text-danger">
+                Ce champ est requis
+              </div>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="endDate">Date de fin</label>
+              <input type="date" id="endDate" class="form-control" formControlName="endDate">
+              <div *ngIf="supplierForm.get('endDate')?.hasError('required')" class="text-danger">
+                Ce champ est requis
+              </div>
+            </div>
+            <div class="form-group col-md-3" id="bouttonSubmit">
+              <div class="row">
+               
+                
+               
+                <button class="btn btn-secondary mt-1" (click)="goBack()">Revenir en arrière</button>
+                <button type="submit" class="btn btn-primary mt-1" [disabled]="supplierForm.invalid">Valider</button>
+               
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-12" style="margin-top: 20px;">
+          <div class="row">
+              <div class="col-4">
+                <canvas id="monChart"></canvas>
+              </div>
+              <div class="col-4">
+                <canvas id="myChart"></canvas>
+              </div>
+              <div class="col-4">
+                <canvas id="mon_chart"></canvas>
+              </div>
+          </div>
+        </div>
+      </div>
+    
+   
+  </div>
+
+  

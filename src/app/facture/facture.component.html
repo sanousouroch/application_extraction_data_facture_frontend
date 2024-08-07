@@ -1,0 +1,97 @@
+<div class="container-fluid">
+    <div class="wrapper d-flex align-items-stretch" *ngIf="user.role!='Non defini'">
+        <nav id="sidebar" >
+            <div class="custom-menu">
+             <!--  <button type="button" id="sidebarCollapse" class="btn btn-primary">
+              </button> -->
+            </div>
+            <div class="img bg-wrap text-center py-4" style="background-image: url();">
+              <div class="user-logo">
+                <div class="img" style="background-image: url(assets/images/bg_1.jpg);"></div>
+                <img src="assets/images/logo_solid.jpg" alt="Description de l'image" width="100px">
+              </div>
+            </div>
+            <div class="text-center">
+              <a routerLink="/edit/user"><span class=""></span> {{ user.nom + ' ' + user.prenom }}</a>
+            </div>
+            <ul class="list-unstyled components mb-5">
+              <li class="nav-link" [ngClass]="{ 'active-link': isActive('/document'), 'inactive-link': !isActive('/document') }" *ngIf="user.role === 'ADMIN'">
+                <a routerLink="/document" class="d-flex align-items-center">
+                  <mat-icon>description</mat-icon>
+                  <span class="ms-2">Factures</span>
+                </a>
+              </li>
+              <li class="nav-link" [ngClass]="{ 'active-link': isActive('/extract'), 'inactive-link': !isActive('/extract') }">
+                <a routerLink="/extract" class="d-flex align-items-center">
+                  <mat-icon>file_download</mat-icon>
+                  <span class="ms-2">Extraction</span>
+                </a>
+              </li>
+              <li class="nav-link" [ngClass]="{ 'active-link': isActive('/data'), 'inactive-link': !isActive('/data') }">
+                <a routerLink="/data" class="d-flex align-items-center">
+                  <mat-icon>data_usage</mat-icon>
+                  <span class="ms-2">Données</span>
+                </a>
+              </li>
+              <li class="nav-link" [ngClass]="{ 'active-link': isActive('/event'), 'inactive-link': !isActive('/event') }" *ngIf="user.role === 'ADMIN'">
+                <a routerLink="/event" class="d-flex align-items-center">
+                  <mat-icon>history</mat-icon>
+                  <span class="ms-2">Historiques</span>
+                </a>
+              </li>
+              <li class="nav-link" [ngClass]="{ 'active-link': isActive('/users'), 'inactive-link': !isActive('/users') }" *ngIf="user.role === 'ADMIN'">
+                <a routerLink="/users" class="d-flex align-items-center">
+                  <mat-icon>people</mat-icon>
+                  <span class="ms-2">Utilisateurs</span>
+                </a>
+              </li>
+              <li class="nav-link" [ngClass]="{ 'active-link': isActive('/client'), 'inactive-link': !isActive('/client') }" *ngIf="user.role === 'ADMIN'">
+                <a routerLink="/client"><mat-icon>group</mat-icon>Clients SOLID</a>
+              </li>
+              <li class="nav-link" [ngClass]="{ 'active-link': isActive('/analyse'), 'inactive-link': !isActive('/analyse') }" *ngIf="user.role === 'ADMIN'">
+                <a routerLink="/analyse" class="d-flex align-items-center">
+                  <mat-icon>insert_chart</mat-icon>
+                  <span class="ms-2">Statistique</span>
+                </a>
+              </li>
+              
+              <li class="nav-link">
+                <a href="" class="d-flex align-items-center" (click)="logout()">
+                  <mat-icon>exit_to_app</mat-icon>
+                  <span class="ms-2">Déconnexion</span>
+                </a>
+              </li>              
+            </ul>
+          </nav>
+        <!-- Page Content  -->
+      <div id="content" class="p-9 p-md-5 pt-5 col-9 offset-2">
+        <h4 class="mb-4">Rôle:{{user.role}}</h4>
+        <p>Cliquer sur extraction pour téléverser une facture et extraire les données</p>
+        <p>Cliquez sur <a href="#"> <span>données</span> </a>  pour visualiser vos données</p>
+      
+        <div>
+          <div  >
+              <div class="col-12 mt-2">
+                
+              </div>
+              
+          </div>
+          
+      </div>
+      
+      
+      </div>
+    </div>
+    <div class="row" id="explain">
+      
+      
+  
+  
+  </div>
+  
+  <div class="alert alert-warning text-center" role="alert" id="invalidInscription" *ngIf="user.role=== 'Non defini'">
+    Votre inscription n'a pas encore été validé
+  </div>
+    
+  
+  </div>

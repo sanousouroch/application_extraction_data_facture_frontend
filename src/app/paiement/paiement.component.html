@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h4 class="modal-title">Paiement</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeDialog()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="paiementForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="idFacture">Facture</label>
+        <input type="text" id="idFacture" class="form-control" formControlName="idFacture" readonly>
+      </div>
+      <div class="form-group">
+        <label for="dateEcheance">Date Echéance</label>
+        <input type="date" id="dateEcheance" class="form-control" formControlName="dateEcheance" readonly>
+      </div>
+      <div class="form-group">
+        <label for="datePaiement">Date paiement</label>
+        <input type="date" id="datePaiement" class="form-control" formControlName="datePaiement">
+        <div *ngIf="paiementForm.get('datePaiement')?.hasError('required')" class="text-danger">
+          Le format de la date est en mois / jour / année
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="modePaiement">Mode paiement</label>
+        <select class="form-control" id="modePaiement" formControlName="modePaiement">
+          <option value="Espèce">Espèce</option>
+          <option value="Chèque">Chèque</option>
+          <option value="Autre">Autre</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="paiementForm.invalid">Valider</button>
+    </form>
+    <div *ngIf="response" style="color: blue;">
+        {{ response }}
+    </div>
+    <div *ngIf="reponse" style="color:red;">
+        {{ reponse }}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeDialog()">Fermer</button>
+  </div>
+

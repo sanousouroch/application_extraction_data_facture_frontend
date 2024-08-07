@@ -1,0 +1,32 @@
+a {
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline; /* Si vous voulez un soulignement au survol */
+  }
+  
+  .user-logo img {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .img {
+    background-size: cover;
+  }
+
+  a.d-flex.align-items-center {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  a.d-flex.align-items-center mat-icon {
+    margin-right: 8px;
+  }
+  
+  .ms-2 {
+    margin-left: 0.5rem; /* Adjust as necessary */
+  }
+  

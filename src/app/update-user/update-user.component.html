@@ -1,0 +1,53 @@
+<div class="container mt-5">
+    <h2 class="text-center">Modifier un Utilisateur</h2>
+    <div class="row">
+        <div class="col-8 offset-2" >
+
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="nom">idUser</label>
+                    <input type="text" id="idUser" formControlName="idUser" class="form-control" readonly>
+                    <div *ngIf="userForm.get('idUser')?.invalid && userForm.get('idUser')?.touched" class="text-danger">
+                        L'identifiant est requis.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" formControlName="nom" class="form-control">
+                    <div *ngIf="userForm.get('nom')?.invalid && userForm.get('nom')?.touched" class="text-danger">
+                        Le nom est requis.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" id="prenom" formControlName="prenom" class="form-control">
+                    <div *ngIf="userForm.get('prenom')?.invalid && userForm.get('prenom')?.touched" class="text-danger">
+                        Le prénom est requis.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" formControlName="email" class="form-control">
+                    <div *ngIf="userForm.get('email')?.invalid && userForm.get('email')?.touched" class="text-danger">
+                        <div *ngIf="userForm.get('email')?.errors?.['required']">L'email est requis.</div>
+                        <div *ngIf="userForm.get('email')?.errors?.['email']">L'email doit être valide.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" formControlName="password" class="form-control">
+                    <div *ngIf="userForm.get('password')?.invalid && userForm.get('password')?.touched" class="text-danger">
+                        Le mot de passe est requis.
+                    </div>
+                </div>
+                <!-- Ajoutez d'autres champs si nécessaire pour votre application -->
+                <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid" id="button_action_document_facture">Modifier</button>
+                <button type="button" class="btn btn-secondary" (click)="onCancel()">Annuler</button>
+            </form>
+            <div *ngIf="response" style="color: blue;">
+                {{ response }}
+            </div>
+
+        </div>
+    </div>
+</div>

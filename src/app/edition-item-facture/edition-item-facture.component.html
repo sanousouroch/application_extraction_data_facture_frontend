@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="row">
+      <div class="col-6">
+        <br>
+        <h5 class="text-center">Édition de l'item</h5>
+        <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="Id">Facture:</label>
+            <input id="Id" formControlName="Id" class="form-control" readonly>
+            <div *ngIf="itemForm.get('Id')?.invalid && itemForm.get('Id')?.touched" class="text-danger">
+              L'Id est requis.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Index">Indice:</label>
+            <input id="Index" formControlName="Index" class="form-control" type="number" readonly>
+            <div *ngIf="itemForm.get('Index')?.invalid && itemForm.get('Index')?.touched" class="text-danger">
+              L'index est requis.
+            </div>
+          </div> 
+  
+          <div class="form-group">
+            <label for="ITEM">Désignation:</label>
+            <input id="ITEM" formControlName="ITEM" class="form-control">
+            <div *ngIf="itemForm.get('ITEM')?.invalid && itemForm.get('ITEM')?.touched" class="text-danger">
+              La désignation est requise.
+            </div>
+          </div>
+
+          
+  
+          <div class="form-group">
+            <label for="PRICE">Price:</label>
+            <input id="PRICE" formControlName="PRICE" class="form-control">
+            <div *ngIf="itemForm.get('PRICE')?.invalid && itemForm.get('PRICE')?.touched" class="text-danger">
+              Le prix est requis.
+            </div>
+          </div>
+  
+          <div class="form-group">
+            <label for="QUANTITY">Quantity:</label>
+            <input id="QUANTITY" formControlName="QUANTITY" class="form-control">
+            <div *ngIf="itemForm.get('QUANTITY')?.invalid && itemForm.get('QUANTITY')?.touched" class="text-danger">
+              La quantité est requise.
+            </div>
+          </div>
+  
+          <button type="submit" class="btn btn-primary" [disabled]="itemForm.invalid">Valider</button>
+        </form>
+        <div *ngIf="response" style="color: blue;">
+          {{ response }}
+        </div>
+      </div>
+      <div class="col-6">
+        <div *ngIf="documentUrl" class="document-viewer mt-4">
+          <h3>Facture Sélectionné</h3>
+          <iframe [src]="documentUrl" width="100%" height="600px" target="_blank"></iframe>
+        </div> 
+      </div>
+    </div>
+    <button class="btn btn-secondary mt-3" (click)="goBack()">Revenir en arrière</button>
+  </div>
+  

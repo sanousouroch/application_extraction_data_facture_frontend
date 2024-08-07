@@ -1,0 +1,165 @@
+<div class="container-fluid mt-5"*ngIf="pagedFacture.length">
+    <div class="row">
+      <div class="col-6" class="text-center">
+        <h2 class="text-center">Liste des données des factures</h2>
+      </div>
+  
+        <div class="col-12" style="margin: 10px;">
+          <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+            <div class="form-row align-items-end">
+              <div class="form-group col-md-6">
+                <label for="supplier">Fournisseur</label>
+                <select id="supplier" class="form-control" formControlName="supplier" (change)="onSupplierChange()">
+                  <option *ngFor="let supplier of uniqueSuppliers" [value]="supplier.VENDOR_NAME">
+                    {{ supplier.VENDOR_NAME }}
+                  </option>
+                </select>
+                <!-- <div *ngIf="supplierForm.get('supplier')?.hasError('required')" class="text-danger">
+                  Veuillez selectionner un fournisseur pour afficher ces factures et procéder aux paiements
+                </div> -->
+              </div>
+            </div>
+          </form>
+        
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="row" *ngIf="user.role === 'ADMIN'">  
+          <div class="col-2">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-title">Nombre total de facture:</p>
+                <h6 class="card-text">{{totalFacture}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-title">Nombre de facture(s) payée(s):</p>
+                <h6 class="card-text">{{nombreFacturePayee}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-title">Nombre de facture(s) impayée(s):</p>
+                <h6 class="card-text">{{nombreFactureImpaye}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-title">Montant total des factures:</p>
+                <h6 class="card-text">{{formatNumberWithSpaces(montantTotalFacture)}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-title">Montant total des facture(s) payée(s):</p>
+                <h6 class="card-text" id="facturePayee">{{ formatNumberWithSpaces(montantTotalFacturePayee)}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-2">
+            <div class="card">
+              <div class="card-body">
+                <p class="card-title">Montant total des facture(s) impayée(s):</p>
+                <h6 class="card-text" id="factureImpayee">{{formatNumberWithSpaces(montantTotalFactureImpaye)}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <table class="table table-bordered table-striped" #dataTable>
+          <thead class="thead-dark">
+            <tr>
+              <th>N°</th>
+              <th>Nom du fournisseur</th>
+              <th>Devise</th>
+              <!-- <th>Taux de change date reception</th> -->
+              <th>Date de réception de la facture</th>
+              <th>Total en monnaie étrangère</th>
+              <th>Total date reception en FCFA</th>
+              <th>Date d'échéance</th>
+              <!-- <th>Taux de change date échéance</th> -->
+              <th>Total date échéance en FCFA</th>
+              <th>Date de paiement</th>
+              <!-- <th>Taux de change date de paiement</th> -->
+              <th>Montant payer</th>
+              <th>Mode de paiement</th>
+              <th *ngIf="user.role==='USER'">Action</th>
+              <th *ngIf="user.role==='ADMIN'">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of pagedFacture;let i = index" >
+              <td>{{i+1}}</td>
+              <td>{{ item?.VENDOR_NAME || 'néant' }}</td>
+              <td>{{ item?.CURRENCY || 'néant' }}</td>
+              <!-- <td>{{ item?.TauxDeChange_INVOICE_RECEIPT_DATE || 'néant' }}</td> -->
+              <td>{{ item?.INVOICE_RECEIPT_DATE || 'néant' }}</td>
+              <td>{{ formatNumberWithSpaces(item?.TOTAL_INVOICE_RECEIPT_DATE) || 'néant' }}</td>
+              <td>{{ formatNumberWithSpaces(item?.TOTAL_INVOICE_RECEIPT_DATE_FCFA) || 'néant' }}</td>
+              <td>{{ item?.DUE_DATE || 'néant' }}</td>
+              <!-- <td>{{ item?.TauxDeChange_DUE_DATE || 'néant' }}</td> -->
+              <td>{{ formatNumberWithSpaces(item?.TOTAL_DUE_DATE_FCFA) || 'néant' }}</td>
+              <td>{{ item?.datePaiement || '' }}</td>
+              <!-- <td>{{ item?.tauxDatePaiement || '' }}</td> -->
+              <td>{{ formatNumberWithSpaces(item?.MontantPayer) || '' }}</td>
+              <td>{{ item?.modePaiement || '' }}</td>
+              <td *ngIf="user.role==='USER'">
+                  <button (click)="getItemDocument(item.Id)" type="button" class="btn btn-primary" id="button_action_document_facture">Voir les détails</button>
+                  <button (click)="getItemFacture(item.Id)" type="button" class="btn btn-info">Voir les désignations</button>
+              </td>
+              <td *ngIf="user.role==='ADMIN'">
+                 <button (click)="openDialog(item.Id,item.DUE_DATE)" type="button" class="btn btn-danger" *ngIf="!item.datePaiement">Non Payée</button>
+                 <button type="button" class="btn btn-success" *ngIf="item.datePaiement">Déjà payée</button>
+              </td>
+              <td *ngIf="user.role==='USER'">
+                <button (click)="openDialog(item.Id,item.DUE_DATE)" type="button" class="btn btn-danger" *ngIf="!item.datePaiement">Non Payée</button>
+                <button type="button" class="btn btn-success" *ngIf="item.datePaiement">Déjà payée</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-12">
+          <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="items.length" (pageChange)="updatePagedData()"></ngb-pagination>
+      </div>
+    </div>
+    <div class="row" id="boutonForaction">
+      <div class="col-4" *ngIf="user.role === 'ADMIN'">
+        <button class="btn btn-secondary mt-3" (click)="goBack()">Revenir en arrière</button>
+      </div>
+      <div class="col-4" *ngIf="user.role === 'USER'">
+        <button class="btn btn-secondary mt-3" (click)="goToBack()">Revenir en arrière</button>
+      </div>
+      <div class="col-4">
+        <button class="btn btn-success mt-3" (click)="exportElmToExcel()">Exporter en excel</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-5" *ngIf="!pagedFacture.length">
+    <div class="alert alert-warning text-center" role="alert" id="invalidInscription">
+      Vous n'aviez pas encore effectués une extraction. Donc pas de données à afficher
+    </div>
+    <div class="col-4" *ngIf="!pagedFacture.length && user.role === 'USER'">
+      <button class="btn btn-secondary mt-3" (click)="goToBack()">Revenir en arrière</button>
+    </div>
+    <div class="col-4" *ngIf="!pagedFacture.length && user.role === 'ADMIN'">
+      <button class="btn btn-secondary mt-3" (click)="goBack()">Revenir en arrière</button>
+    </div>
+      
+  </div>
+
+    

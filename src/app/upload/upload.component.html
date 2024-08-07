@@ -1,0 +1,38 @@
+<div class="container text-center">
+  <h2>Téléversement de facture</h2>
+  <h6>PDF ou JPG ou PNG ou JPEG</h6>
+  <div class="drop-zone" (drop)="onFileDropped($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+    <p>Faites glisser une facture ici ou Cliquer voir choisir la facture</p>
+    <input type="file" name="" id="" class="form-control" (change)="onFileSelected($event)" accept=".pdf,.jpg,.jpeg,.png">
+  </div>
+  <button (click)="onUpload()" [disabled]="!selectedFile" class="btn btn-primary mt-3"  #loadButton>Valider</button>
+  @defer (on interaction(loadButton)) {
+    <p></p>
+  }
+  @loading(minimum 10s){
+    <h6 style="color: red;" *ngIf="uploadResponse!=='L\'extraction de données a été déjà fait avec cette facture'">Extraction en cours...</h6>
+  }
+  @error {
+    <p>Extraction échouée...</p>  
+  }
+  <div *ngIf="uploadResponse === 'Extraction réussie'" id="response">
+    {{ uploadResponse }}
+  </div>
+  <div *ngIf="uploadResponse === 'Extraction échouée'" id="response">
+    {{ uploadResponse }}
+  </div>
+  <div *ngIf="uploadResponse==='L\'extraction de données a été déjà fait avec cette facture'" id="response">
+    {{ uploadResponse }}
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <button class="btn btn-secondary mt-3" (click)="goBack()">Revenir en arrière</button>
+    </div>
+    <div class="col-4 offset-4">
+      <button class="btn btn-info mt-3" (click)="getItems()"> Liste de données</button>
+    </div>
+  </div>
+</div>
+
+
+  

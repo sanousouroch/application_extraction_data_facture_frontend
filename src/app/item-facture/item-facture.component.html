@@ -1,0 +1,52 @@
+<div class="container mt-5" >
+    <h2 class="text-center">Désignations de la facture {{ data.Id }}</h2> <br>
+    <div class="row">
+      <div class="col-12">
+        <table class="table table-bordered table-striped" #dataTable>
+          <thead class="thead-dark">
+            <tr>
+              <th>N°</th>
+              <th>Description</th>
+              <th>Quantité</th>
+              <th>Total en {{ data.CURRENCY }}</th>
+              <th>Date échéance</th>
+              <th>Taux Date échéance</th>
+              <th>Date de reception</th>
+              <th>Taux Date de reception</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of data.items; let i = index;">
+              <td>{{i+1}}</td>
+              <td>{{ item.ITEM || 'néant' }}</td>
+              <td>{{ item.QUANTITY }}</td>
+              <td>{{ item.PRICE || 'néant' }}</td>
+              <td>{{ data.DUE_DATE || 'néant' }}</td>
+              <td>{{ data.TauxDeChange_DUE_DATE }}</td>
+              <td>{{ data.INVOICE_RECEIPT_DATE || 'néant' }}</td>
+              <td>{{ data.TauxDeChange_INVOICE_RECEIPT_DATE || 'néant' }}</td>
+              <td> <button class="btn btn-warning" (click)="getItemEdit(data.Id,i)">Modifier</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-12">
+        <div *ngIf="documentUrl" class="document-viewer mt-4">
+          <iframe [src]="documentUrl" width="100%" height="600px" target="_blank"></iframe>
+        </div> 
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4"  *ngIf="user.role==='ADMIN'">
+          <button class="btn btn-secondary mt-3" (click)="goBack()">Revenir en arrière</button>
+        </div>
+        <div class="col-4"  *ngIf="user.role==='USER'">
+          <button class="btn btn-secondary mt-3" (click)="goToBack()">Revenir en arrière</button>
+        </div>
+        <div class="col-4 offset-4">
+          <button class="btn btn-success mt-3" (click)="exportElmToExcel()">Exporter en excel</button>
+        </div>
+      </div>
+  </div>

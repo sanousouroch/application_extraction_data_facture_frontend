@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <h4 class="modal-title">Désactiver un utilisateur</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeDialog()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="idUser">ID Utilisateur</label>
+        <input type="text" id="idUser" class="form-control" formControlName="idUser" readonly>
+      </div>
+      <div class="form-group">
+        <label for="nom">Nom</label>
+        <input type="text" id="nom" class="form-control" formControlName="nom" readonly>
+      </div>
+      <div class="form-group">
+        <label for="prenom">Prénom</label>
+        <input type="text" id="prenom" class="form-control" formControlName="prenom" readonly>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="roleForm.invalid">Valider</button>
+    </form>
+    <div *ngIf="response" style="color: blue;">
+        {{ response }}
+    </div>
+    <div *ngIf="reponse" style="color:red;">
+        {{ reponse }}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeDialog()">Fermer</button>
+  </div>

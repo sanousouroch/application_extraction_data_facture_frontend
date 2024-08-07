@@ -1,0 +1,30 @@
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Espace entre les éléments */
+    align-items: flex-end; /* Alignement en bas pour aligner le bouton avec les autres champs */
+  }
+  
+  .form-group {
+    flex: 1; /* Tous les éléments prennent une largeur égale */
+    min-width: 200px; /* Largeur minimale pour chaque champ de formulaire */
+  }
+  
+  .text-danger {
+    color: red;
+    font-size: 0.875rem;
+  }
+  #bouttonSubmit{
+    margin: 10px;
+  }
+  #comeBack{
+    margin-bottom: 50px;
+  }
+  .btn{
+    width: 150px;
+  }
+
+  #formulaire_recherche{
+    margin-left: 120px;
+  }
+  

@@ -1,0 +1,90 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <br>
+    <h5 class="text-center">Edition de la facture {{detail.Id}}</h5>
+    <form [formGroup]="factureForm" (ngSubmit)="onSubmit()">
+        <div>
+          <label for="Id">Facture:</label>
+          <input id="Id" formControlName="Id" class="form-control" readonly>
+        </div>
+      
+        <div>
+          <label for="VENDOR_NAME">Fournisseur:</label>
+          <input id="VENDOR_NAME" formControlName="VENDOR_NAME" class="form-control">
+        </div>
+      
+        <div>
+          <label for="INVOICE_RECEIPT_ID">Identifiant Facture</label>
+          <input id="INVOICE_RECEIPT_ID" formControlName="INVOICE_RECEIPT_ID" class="form-control" readonly>
+        </div>
+        <div>
+          <label for="TOTAL_INVOICE_RECEIPT_DATE">Total à la date de reception:</label>
+          <input id="TOTAL_INVOICE_RECEIPT_DATE" type="text" formControlName="TOTAL_INVOICE_RECEIPT_DATE" class="form-control">
+        </div>
+      
+        <div>
+          <label for="INVOICE_RECEIPT_DATE">Date de reception en mois/jour/année:</label>
+          <input id="INVOICE_RECEIPT_DATE" type="date" formControlName="INVOICE_RECEIPT_DATE" class="form-control">
+          <div *ngIf="factureForm.get('INVOICE_RECEIPT_DATE')?.hasError('required')" class="text-danger">
+            Le format de la date est en mois / jour / année
+          </div>
+        </div>
+      
+        <div>
+          <label for="CURRENCY">Devise:</label>
+          <input id="CURRENCY" formControlName="CURRENCY" class="form-control">
+        </div>
+      
+        <div>
+          <label for="TauxDeChange_INVOICE_RECEIPT_DATE">Taux De Change à la date de reception:</label>
+          <input id="TauxDeChange_INVOICE_RECEIPT_DATE" type="number" formControlName="TauxDeChange_INVOICE_RECEIPT_DATE" class="form-control">
+        </div>
+      
+        <div>   
+          <label for="TOTAL_INVOICE_RECEIPT_DATE_FCFA">Total à la date de reception en FCFA:</label>
+          <input id="TOTAL_INVOICE_RECEIPT_DATE_FCFA" type="number" formControlName="TOTAL_INVOICE_RECEIPT_DATE_FCFA" class="form-control">
+        </div>
+      
+        <div>
+          <label for="DUE_DATE">Date échéance en mois/jour/annee:</label>
+          <input id="DUE_DATE" type="date" formControlName="DUE_DATE" class="form-control">
+          <div *ngIf="factureForm.get('DUE_DATE')?.hasError('required')" class="text-danger">
+            Le format de la date est en mois / jour / année
+          </div>
+        </div>
+      
+        <div>
+          <label for="TauxDeChange_DUE_DATE">Taux De Change à la date échéance:</label>
+          <input id="TauxDeChange_DUE_DATE" type="number" formControlName="TauxDeChange_DUE_DATE" class="form-control">
+        </div>
+      
+        <div>
+          <label for="TOTAL_DUE_DATE_FCFA">Total à la date échéance en FCFA:</label>
+          <input id="TOTAL_DUE_DATE_FCFA" type="number" formControlName="TOTAL_DUE_DATE_FCFA" class="form-control">
+        </div>
+      
+        <div>
+          <label for="ADDRESS">Adresse:</label>
+          <input id="ADDRESS" formControlName="ADDRESS" class="form-control">
+        </div>
+      
+        <button type="submit"  class="btn btn-primary"[disabled]="factureForm.invalid">Valider</button>
+    
+        <div *ngIf="response" style="color: blue;">
+          {{ response }}
+        </div>
+      </form>
+
+        </div>
+        <div class="col-6">
+          <div *ngIf="documentUrl" class="document-viewer mt-4">
+            <h3>Facture Sélectionnée</h3>
+            <iframe [src]="documentUrl" width="100%" height="600px" target="_blank"></iframe>
+          </div> 
+        </div>
+    </div>
+    <button class="btn btn-secondary mt-3" (click)="goBack()">Revenir en arrière</button>
+
+      
+</div>

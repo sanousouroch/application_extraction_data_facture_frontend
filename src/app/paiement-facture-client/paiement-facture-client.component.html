@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4 class="modal-title">Paiement</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeDialog()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="paiementClientForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="numeroFacture">Numéro Facture</label>
+            <input type="text" id="numeroFacture" class="form-control" formControlName="numeroFacture" readonly>
+          </div>
+      <div class="form-group">
+        <label for="statut">Statut</label>
+        <select class="form-control" id="statut" formControlName="statut">
+          <option value="PAYE">PAYE</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="modePaiement">Mode de paiement </label>
+        <select class="form-control" id="modePaiement" formControlName="modePaiement">
+          <option value="Espèce">Espèce</option>
+          <option value="Chèque">Chèque</option>
+          <option value="Autre">Autre</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="paiementClientForm.invalid">Valider</button>
+    </form>
+    <div *ngIf="response" style="color: blue;">
+        {{ response }}
+    </div>
+    <div *ngIf="reponse" style="color:red;">
+        {{ reponse }}
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeDialog()">Fermer</button>
+  </div>
+

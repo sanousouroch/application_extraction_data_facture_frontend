@@ -1,0 +1,76 @@
+<div class="container-fluid">
+    <div class="wrapper d-flex align-items-stretch" *ngIf="user.role!='Non defini'">
+      <nav id="sidebar">
+        <div class="custom-menu">
+          <!--  <button type="button" id="sidebarCollapse" class="btn btn-primary">
+          </button> -->
+        </div>
+        <div class="img bg-wrap text-center py-4" style="background-image: url();">
+          <div class="user-logo">
+            <div class="img" style="background-image: url(assets/images/bg_1.jpg);"></div>
+            <img src="assets/images/logo_solid.jpg" alt="Description de l'image" width="100px">
+          </div>
+        </div>
+        <div class="text-center">
+          <a routerLink="/edit/user"><span class=""></span> {{ user.nom + ' ' + user.prenom }}</a>
+         
+        </div>
+        <ul class="list-unstyled components mb-4">
+          
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive('/stats'), 'inactive-link': !isActive('/stats') }" *ngIf="user.role === 'ADMIN'">
+            <a routerLink="/stats"><mat-icon>dashboard</mat-icon> Tableau de bord</a>
+          </li>
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive('/document'), 'inactive-link': !isActive('/document') }" *ngIf="user.role === 'ADMIN'">
+            <a routerLink="/document"><mat-icon>receipt</mat-icon> Factures</a>
+          </li>
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive('/extract'), 'inactive-link': !isActive('/extract') }">
+            <a routerLink="/extract"><mat-icon>content_cut</mat-icon> Extraction</a>
+          </li>
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive('/data'), 'inactive-link': !isActive('/data') }">
+            <a routerLink="/data"><mat-icon>data_usage</mat-icon> Données</a>
+          </li>
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive('/event'), 'inactive-link': !isActive('/event') }" *ngIf="user.role === 'ADMIN'">
+            <a routerLink="/event"><mat-icon>history</mat-icon> Historiques</a>
+          </li>
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive('/users'), 'inactive-link': !isActive('/users') }" *ngIf="user.role === 'ADMIN'">
+            <a routerLink="/users"><mat-icon>group</mat-icon> Utilisateurs</a>
+          </li>
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive('/client'), 'inactive-link': !isActive('/client') }" *ngIf="user.role === 'ADMIN'">
+            <a routerLink="/client"><mat-icon>group</mat-icon>Clients SOLID</a>
+          </li>
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive('/analyse'), 'inactive-link': !isActive('/analyse') }" *ngIf="user.role === 'ADMIN'">
+            <a routerLink="/analyse"><mat-icon>insert_chart</mat-icon>Statistique</a>
+          </li>          
+          <li class="nav-link" [ngClass]="{ 'active-link': isActive(''), 'inactive-link': !isActive('') }">
+            <button class="btn btn-primary d-flex align-items-center" (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span id="deconnexion" class="ms-2">Déconnexion</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
+        <!-- Page Content  -->
+      <div id="content" class="p-9 p-md-5 pt-5 col-9">
+       <!--  <h2 class="mb-4">You are welcome</h2>
+        <p>Bienvenue notre application d'extraction de données de factures fournisseur.</p>
+        <p>Cliquez <a href="#"> <span>ici</span> </a>  pour voir la procédure</p> -->
+      
+        <div>
+          <div >
+            
+              <div id="content" class="col-9 mt-2 offset-2" >
+                  <div class="col-12">
+                    <canvas id="myChart"></canvas>
+                  </div>
+              </div>
+          </div>
+          
+      </div>
+      </div>
+    </div>
+    
+  </div>
+
+
+
+
