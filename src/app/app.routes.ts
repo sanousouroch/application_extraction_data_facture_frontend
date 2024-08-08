@@ -21,7 +21,6 @@ import { ClientComponent } from './client/client.component';
 
 
 export const routes: Routes = [
-
     { path: '', component: AccueilComponent },
     { path: 'document', component: DocumentComponent },
     { path: 'data', component: DataComponent },

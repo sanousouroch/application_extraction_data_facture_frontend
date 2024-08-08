@@ -13,6 +13,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+
+
 @Component({
   selector: 'app-edition-item-facture',
   standalone: true,
@@ -37,6 +39,16 @@ export class EditionItemFactureComponent implements OnInit{
   constructor(private route:ActivatedRoute,private dataService: DataService, private location: Location, private service: ExtractionServiceService, private router: Router,private fb: FormBuilder,private snackBar: MatSnackBar, private dialogue:NgbModal) { 
   
   }
+
+  isImage(url: string): boolean {
+    return url.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null;
+  }
+
+  // Méthode pour vérifier si l'URL est un PDF
+  isPDF(url: string): boolean {
+    return url.match(/\.pdf$/i) !== null;
+  }
+  
   getCurrentDate(): string {
     const currentDate = new Date();
     return currentDate.toISOString();

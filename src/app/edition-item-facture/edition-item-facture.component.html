@@ -2,7 +2,7 @@
     <div class="row">
       <div class="col-6">
         <br>
-        <h5 class="text-center">Édition de l'item</h5>
+        <h5 class="text-center">Édition de l'article</h5>
         <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label for="Id">Facture:</label>
@@ -20,7 +20,7 @@
           </div> 
   
           <div class="form-group">
-            <label for="ITEM">Désignation:</label>
+            <label for="ITEM">Article:</label>
             <input id="ITEM" formControlName="ITEM" class="form-control">
             <div *ngIf="itemForm.get('ITEM')?.invalid && itemForm.get('ITEM')?.touched" class="text-danger">
               La désignation est requise.
@@ -30,7 +30,7 @@
           
   
           <div class="form-group">
-            <label for="PRICE">Price:</label>
+            <label for="PRICE">Prix:</label>
             <input id="PRICE" formControlName="PRICE" class="form-control">
             <div *ngIf="itemForm.get('PRICE')?.invalid && itemForm.get('PRICE')?.touched" class="text-danger">
               Le prix est requis.
@@ -38,7 +38,7 @@
           </div>
   
           <div class="form-group">
-            <label for="QUANTITY">Quantity:</label>
+            <label for="QUANTITY">Quantité:</label>
             <input id="QUANTITY" formControlName="QUANTITY" class="form-control">
             <div *ngIf="itemForm.get('QUANTITY')?.invalid && itemForm.get('QUANTITY')?.touched" class="text-danger">
               La quantité est requise.
@@ -53,8 +53,13 @@
       </div>
       <div class="col-6">
         <div *ngIf="documentUrl" class="document-viewer mt-4">
-          <h3>Facture Sélectionné</h3>
-          <iframe [src]="documentUrl" width="100%" height="600px" target="_blank"></iframe>
+          <h3>Facture Sélectionnée</h3>
+          
+          <!-- Affiche l'image si le document est une image -->
+          <img *ngIf="isImage(documentUrl)" [src]="documentUrl" alt="Document Image" width="100%" height="600px" />
+        
+          <!-- Affiche le PDF dans un iframe si le document est un PDF -->
+          <iframe *ngIf="isPDF(documentUrl)" [src]="documentUrl" width="100%" height="600px"></iframe>
         </div> 
       </div>
     </div>

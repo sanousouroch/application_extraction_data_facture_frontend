@@ -38,6 +38,15 @@ export class EditDetailFactureComponent implements OnInit{
   
   }
 
+  isImage(url: string): boolean {
+    return url.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null;
+  }
+
+  // Méthode pour vérifier si l'URL est un PDF
+  isPDF(url: string): boolean {
+    return url.match(/\.pdf$/i) !== null;
+  }
+
 
   ngOnInit(): void {
     this.dataService.currentDocument.subscribe(url => this.documentUrl = url);

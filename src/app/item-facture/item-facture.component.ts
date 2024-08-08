@@ -32,6 +32,15 @@ export class ItemFactureComponent implements OnInit{
     this.dataService.currentDocument.subscribe(url => this.documentUrl = url);
   }
 
+  isImage(url: string): boolean {
+    return url.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null;
+  }
+
+  // Méthode pour vérifier si l'URL est un PDF
+  isPDF(url: string): boolean {
+    return url.match(/\.pdf$/i) !== null;
+  }
+
   goBack() {
     this.router.navigate(['/document'])
   }
