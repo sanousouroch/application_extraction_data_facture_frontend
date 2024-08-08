@@ -33,23 +33,24 @@ export class EditDetailFactureComponent implements OnInit{
   documentUrl: any;
   currentDate!: string;
   statut!: string;
+  documentType: 'image' | 'pdf' | null = null; // Type du document
   
   constructor(private dataService: DataService, private location: Location, private service: ExtractionServiceService, private router: Router,private fb: FormBuilder,private snackBar: MatSnackBar, private dialogue:NgbModal) { 
   
   }
 
-  isImage(url: string): boolean {
-    return url.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null;
-  }
-
-  // Méthode pour vérifier si l'URL est un PDF
-  isPDF(url: string): boolean {
-    return url.match(/\.pdf$/i) !== null;
-  }
-
 
   ngOnInit(): void {
-    this.dataService.currentDocument.subscribe(url => this.documentUrl = url);
+    this.dataService.currentDocument.subscribe(data => {
+      if (data) {
+        this.documentUrl = data.document; // URL du document
+        this.documentType = data.type; // Type du document
+        console.log('Document URL:', this.documentUrl); // Log pour débogage
+        console.log('Document Type:', this.documentType); // Log pour débogage
+      } else {
+        console.warn('Data is null or undefined'); // Avertir si les données sont null
+      }
+    });
     this.user = this.service.getUser();
     this.dataService.currentItem.subscribe(data => {
       this.detail = data;

@@ -29,8 +29,12 @@ export class DataService {
   }
 
 
-  changeDocument(document: any) {
-    this.documentSource.next(document);
+  changeDocument(document: any, type: string) {
+    const documentInfo = {
+      document: document,
+      type: type
+    };
+    this.documentSource.next(documentInfo);
   }
 
   changeUserInfo(item: any) {

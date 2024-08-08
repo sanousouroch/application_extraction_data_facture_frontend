@@ -25,10 +25,11 @@ export class UploadComponent implements OnInit{
   items: any[] = [];
   user:any
   currentDate!: string;
-  idFacture!:String
+  idFacture!:string
 
   item: any[] = [];
   selectedDocumentUrl: SafeResourceUrl | null = null;
+  documentType!: any;
 
   constructor(private service:ExtractionServiceService,private location:Location,private dataService: DataService,private router:Router,private sanitizer: DomSanitizer){}
 
@@ -162,17 +163,30 @@ export class UploadComponent implements OnInit{
 }
 
 
-viewDocument(key: String): void {
+viewDocument(key: string): void {
   this.service.getDocument(key).subscribe(blob => {
     const url = window.URL.createObjectURL(blob);
     const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    this.dataService.changeDocument(safeUrl); // Mise à jour du service partagé
-      console.log('Generated URL:', safeUrl); // Debugging logg
-  });
+    
+    // Déterminez le type de document basé sur la clé
+    
 
+    if (key.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i)) {
+     this.documentType = 'image';
+    } else if (key.match(/\.pdf$/i)) {
+      this.documentType = 'pdf';
+    } else {
+      this.documentType = 'unknown'; // Valeur par défaut si le type n'est pas reconnu
+    }
+
+    // Mettez à jour le service partagé avec l'URL et le type
+    this.dataService.changeDocument(safeUrl,this.documentType);
+    console.log('Generated URL:', safeUrl); // Log de débogage
+    console.log('Document type:', this.documentType); // Log du type pour débogage
+  });
 }
 
-getItemDocument(itemId:String){
+getItemDocument(itemId:string){
   if (itemId) {
     this.service.getItemByDocuments(itemId).subscribe(data => {
       this.item = data;

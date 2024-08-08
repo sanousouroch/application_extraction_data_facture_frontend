@@ -26,6 +26,8 @@ export class OneFactureComponent implements OnInit{
 
  @ViewChild('dataTable') dataTable: ElementRef;
 
+ documentType: 'image' | 'pdf' | null = null; // Type du document
+
  constructor(private dataService: DataService, private location: Location, private router:Router,private exportService: ExportService, private service:ExtractionServiceService) { 
   this.dataTable = ElementRef.prototype
 }
@@ -35,7 +37,16 @@ export class OneFactureComponent implements OnInit{
     this.dataService.currentItem.subscribe(data => {
       this.data = data;
     });
-    this.dataService.currentDocument.subscribe(url => this.documentUrl = url);
+    this.dataService.currentDocument.subscribe(data => {
+      if (data) {
+        this.documentUrl = data.document; // URL du document
+        this.documentType = data.type; // Type du document
+        console.log('Document URL:', this.documentUrl); // Log pour débogage
+        console.log('Document Type:', this.documentType); // Log pour débogage
+      } else {
+        console.warn('Data is null or undefined'); // Avertir si les données sont null
+      }
+    });
   }
 
   goBack() {

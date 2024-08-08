@@ -49,6 +49,8 @@ export class DataComponent implements OnInit{
  
 
   pagedFacture: any[] = [];
+
+  documentType!: any;
   
 
   constructor(private fb: FormBuilder,private dataService: DataService, private location: Location, private exportService: ExportService,private router:Router,private service: ExtractionServiceService,private sanitizer: DomSanitizer,private dialogRef:NgbModal) { 
@@ -243,7 +245,7 @@ export class DataComponent implements OnInit{
 });
 }
 
-getItemDocument(itemId:String){
+getItemDocument(itemId:string){
   if (itemId) {
     this.service.getItemByDocuments(itemId).subscribe(data => {
       this.item = data;
@@ -254,7 +256,7 @@ getItemDocument(itemId:String){
   }
 }
 
-getItemFacture(itemId:String){
+getItemFacture(itemId:string){
 if (itemId) {
   this.service.getItemsFacture(itemId).subscribe(data => {
     this.data = data;
@@ -265,14 +267,27 @@ if (itemId) {
 }
 }
 
-viewDocument(key: String): void {
+viewDocument(key: string): void {
   this.service.getDocument(key).subscribe(blob => {
     const url = window.URL.createObjectURL(blob);
     const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    this.dataService.changeDocument(safeUrl); // Mise à jour du service partagé
-      console.log('Generated URL:', safeUrl); // Debugging logg
-  });
+    
+    // Déterminez le type de document basé sur la clé
+    
 
+    if (key.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i)) {
+     this.documentType = 'image';
+    } else if (key.match(/\.pdf$/i)) {
+      this.documentType = 'pdf';
+    } else {
+      this.documentType = 'unknown'; // Valeur par défaut si le type n'est pas reconnu
+    }
+
+    // Mettez à jour le service partagé avec l'URL et le type
+    this.dataService.changeDocument(safeUrl,this.documentType);
+    console.log('Generated URL:', safeUrl); // Log de débogage
+    console.log('Document type:', this.documentType); // Log du type pour débogage
+  });
 }
 
 getUniqueSuppliers(suppliers: any[]): any[] {

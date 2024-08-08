@@ -41,6 +41,7 @@ export class DocumentComponent implements OnInit{
   historics: any[] = [];
 
   @Output() listeData: any;
+  documentType!: any;
 
   constructor(private sanitizer: DomSanitizer,private service: ExtractionServiceService,private dataService: DataService, private route: ActivatedRoute,private router:Router) { 
     this.user = this.service.getUser();
@@ -73,7 +74,7 @@ export class DocumentComponent implements OnInit{
     
   }
 
-  getItemDocument(itemId:String){
+  getItemDocument(itemId:string){
       if (itemId) {
         this.service.getItemByDocuments(itemId).subscribe(data => {
           this.item = data;
@@ -85,7 +86,7 @@ export class DocumentComponent implements OnInit{
       }
   }
 
-  getItemFacture(itemId:String){
+  getItemFacture(itemId:string){
     if (itemId) {
       this.service.getItemsFacture(itemId).subscribe(data => {
         this.data = data;
@@ -106,15 +107,29 @@ export class DocumentComponent implements OnInit{
   });
 }
 
-viewDocument(key: String): void {
+viewDocument(key: string): void {
   this.service.getDocument(key).subscribe(blob => {
     const url = window.URL.createObjectURL(blob);
     const safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-    this.dataService.changeDocument(safeUrl); // Mise à jour du service partagé
-      console.log('Generated URL:', safeUrl); // Debugging logg
-  });
+    
+    // Déterminez le type de document basé sur la clé
+    
 
+    if (key.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i)) {
+     this.documentType = 'image';
+    } else if (key.match(/\.pdf$/i)) {
+      this.documentType = 'pdf';
+    } else {
+      this.documentType = 'unknown'; // Valeur par défaut si le type n'est pas reconnu
+    }
+
+    // Mettez à jour le service partagé avec l'URL et le type
+    this.dataService.changeDocument(safeUrl,this.documentType);
+    console.log('Generated URL:', safeUrl); // Log de débogage
+    console.log('Document type:', this.documentType); // Log du type pour débogage
+  });
 }
+
 
 getCurrentDate(): string {
   const currentDate = new Date();

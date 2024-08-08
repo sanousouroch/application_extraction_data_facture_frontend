@@ -22,6 +22,7 @@ export class ItemFactureComponent implements OnInit{
  user:any
 
  @ViewChild('dataTable') dataTable: ElementRef;
+ documentType: 'image' | 'pdf' | null = null; // Type du document
 
   ngOnInit(): void {
     this.user = this.service.getUser();
@@ -29,16 +30,16 @@ export class ItemFactureComponent implements OnInit{
       this.data = data;
       console.log(data);
     });
-    this.dataService.currentDocument.subscribe(url => this.documentUrl = url);
-  }
-
-  isImage(url: string): boolean {
-    return url.match(/\.(jpeg|jpg|gif|png|bmp|webp)$/i) !== null;
-  }
-
-  // Méthode pour vérifier si l'URL est un PDF
-  isPDF(url: string): boolean {
-    return url.match(/\.pdf$/i) !== null;
+    this.dataService.currentDocument.subscribe(data => {
+      if (data) {
+        this.documentUrl = data.document; // URL du document
+        this.documentType = data.type; // Type du document
+        console.log('Document URL:', this.documentUrl); // Log pour débogage
+        console.log('Document Type:', this.documentType); // Log pour débogage
+      } else {
+        console.warn('Data is null or undefined'); // Avertir si les données sont null
+      }
+    });
   }
 
   goBack() {

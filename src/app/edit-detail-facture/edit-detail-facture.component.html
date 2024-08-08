@@ -80,12 +80,22 @@
         <div class="col-6">
           <div *ngIf="documentUrl" class="document-viewer mt-4">
             <h3>Facture Sélectionnée</h3>
-            
-            <!-- Affiche l'image si le document est une image -->
-            <img *ngIf="isImage(documentUrl)" [src]="documentUrl" alt="Document Image" width="100%" height="600px" />
-          
-            <!-- Affiche le PDF dans un iframe si le document est un PDF -->
-            <iframe *ngIf="isPDF(documentUrl)" [src]="documentUrl" width="100%" height="600px"></iframe>
+           
+            <!-- <img [src]="documentUrl" alt="" srcset=""> -->
+            <!-- <iframe [src]="documentUrl" width="100%" height="600px" target="_blank"></iframe> -->
+                      <img *ngIf="documentType === 'image'" 
+                      [src]="documentUrl" 
+                      alt="Document Image" 
+                      width="100%" 
+                      height="600px" />
+              
+                <!-- Afficher le PDF dans un iframe si le type est 'pdf' -->
+                <iframe *ngIf="documentType === 'pdf'" 
+                        [src]="documentUrl" 
+                        width="100%" 
+                        height="600px">
+                  <p>Votre navigateur ne peut pas afficher ce document. Veuillez télécharger le fichier pour le visualiser.</p>
+                </iframe>
           </div> 
         </div>
     </div>
