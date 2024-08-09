@@ -3,9 +3,8 @@
       <div class="col-6" class="text-center">
         <h2 class="text-center">Liste des données des factures</h2>
       </div>
-  
         <div class="col-12" style="margin: 10px;">
-          <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="supplierForm" (ngSubmit)="onSubmit()" *ngIf="user.role==='ADMIN'">
             <div class="form-row align-items-end">
               <div class="form-group col-md-6">
                 <label for="supplier">Fournisseur</label>
@@ -116,15 +115,14 @@
               <td *ngIf="user.role==='USER'">
                   <button (click)="getItemDocument(item.Id)" type="button" class="btn btn-primary" id="button_action_document_facture">Voir les détails</button>
                   <button (click)="getItemFacture(item.Id)" type="button" class="btn btn-info">Voir les désignations</button>
+                  <button (click)="openDialog(item.Id,item.DUE_DATE)" type="button" class="btn btn-danger" *ngIf="!item.datePaiement" id="button_action_document_facture">Non Payée</button>
+                  <button type="button" class="btn btn-success" *ngIf="item.datePaiement">Déjà payée</button>
               </td>
               <td *ngIf="user.role==='ADMIN'">
                  <button (click)="openDialog(item.Id,item.DUE_DATE)" type="button" class="btn btn-danger" *ngIf="!item.datePaiement">Non Payée</button>
                  <button type="button" class="btn btn-success" *ngIf="item.datePaiement">Déjà payée</button>
               </td>
-              <td *ngIf="user.role==='USER'">
-                <button (click)="openDialog(item.Id,item.DUE_DATE)" type="button" class="btn btn-danger" *ngIf="!item.datePaiement">Non Payée</button>
-                <button type="button" class="btn btn-success" *ngIf="item.datePaiement">Déjà payée</button>
-              </td>
+              
             </tr>
           </tbody>
         </table>

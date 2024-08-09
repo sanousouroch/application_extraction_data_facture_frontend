@@ -20,6 +20,7 @@ import { Chart, registerables } from 'chart.js'
 export class AnalyseDataComponent implements OnInit,AfterViewInit{
   items: any[] = [];
   supplierForm!: FormGroup;
+  supplierForme!: FormGroup;
   suppliers: any[] = [];
   totalFacture:any;
   nombreFacturePayee=0;
@@ -45,10 +46,13 @@ export class AnalyseDataComponent implements OnInit,AfterViewInit{
   constructor(private fb: FormBuilder,private dataService:DataService,private service:ExtractionServiceService,private router:Router){
 
     this.supplierForm = this.fb.group({
-      supplier: [''],
+      supplier: ['']
+    });
+    this.supplierForme = this.fb.group({
       startDate: [''],
       endDate: ['']
     });
+   
 
   }
   
@@ -117,48 +121,87 @@ export class AnalyseDataComponent implements OnInit,AfterViewInit{
           this.uniqueSuppliers = this.getUniqueSuppliers(this.suppliers);
     });
   }
+  parseDate(dateString: string): Date {
+    const [day, month, year] = dateString.split('/').map(Number);
+    return new Date(year, month - 1, day);
+  }
+  
+  convertDDMMYYYYToYYYYMMDD(dateString: string | undefined): string {
+    if (!dateString) {
+      throw new Error('La date est indéfinie ou vide.');
+    }
+  
+    const parts = dateString.split('-');
+    if (parts.length !== 3) {
+      throw new Error('Format de date invalide.');
+    }
+  
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+  
+    return `${year}-${month}-${day}`;
+  }
+  
 
-  onSubmit(): void {
+  
+  
+
+ 
+  onClikDate(): void {
     this.montantTotalFacture = 0;
     this.montantTotalFacturePayee = 0;
     this.montantTotalFactureImpaye = 0;
-    if (this.supplierForm.valid) {
-      this.dateDebut = this.supplierForm.get('startDate')?.value;
-      this.dateFin = this.supplierForm.get('endDate')?.value;
+  
+    if (this.supplierForme.valid) {
+      this.dateDebut = this.supplierForme.get('startDate')?.value;
+      this.dateFin = this.supplierForme.get('endDate')?.value;
+  
+      console.log('Date de début:', this.dateDebut);
+      console.log('Date de fin:', this.dateFin);
+  
       this.service.getItemsInvoice().subscribe(data => {
         this.items = data;
-        this.totalFacture=data.length;
-        
-        
-         for (let i = 0; i < data.length; i++) {
-           const donnee = data[i];
-           this.montantTotalFacture = donnee.TOTAL_DUE_DATE_FCFA + this.montantTotalFacture;
-          // console.log(this.montantTotalFacture);
-           console.log(this.montantTotalFacture);
-           if(donnee.datePaiement && this.dateDebut <= donnee.datePaiement && donnee.datePaiement <= this.dateFin)
-             {
-              
-               this.nombreFacturePayee = this.items.filter(donnee => donnee.datePaiement).length;
-               console.log(this.nombreFacturePayee);
-               this.montantTotalFacturePayee = this.montantTotalFacturePayee + donnee.MontantPayer
-               console.log(this.montantTotalFacturePayee);
-               
-               
-             }
-             
-         }
-         this.createOrUpdateChart();
-         
-       
-     });
-   
-
+        this.totalFacture = data.length;
+  
+        // Filtrage des factures payées entre dateDebut et dateFin
+        this.montantTotalFacturePayee = this.items
+          .filter(invoice => {
+            if (invoice.datePaiement) {
+              // Convertir la date de paiement au format YYYY-MM-DD
+              const datePaiementFormatted = this.convertDDMMYYYYToYYYYMMDD(invoice.datePaiement);
+              return datePaiementFormatted >= this.dateDebut && datePaiementFormatted <= this.dateFin;
+            }
+            return false; // Si datePaiement n'existe pas, on ignore la facture
+          })
+          .reduce((total, invoice) => total + invoice.MontantPayer, 0);
+  
+        console.log('Montant payé:', this.montantTotalFacturePayee);
+  
+        // Filtrage des factures impayées
+        const facturesImpaye = this.items.filter(invoice => !invoice.datePaiement);
+        this.nombreFactureImpaye = facturesImpaye.length;
+        this.montantTotalFactureImpaye = facturesImpaye.reduce((total, invoice) => total + invoice.TOTAL_DUE_DATE_FCFA, 0);
+  
+        console.log('Montant impayé:', this.montantTotalFactureImpaye);
+  
+        // Calcul du montant total de toutes les factures
+        this.montantTotalFacture = this.items.reduce((total, invoice) => total + invoice.TOTAL_DUE_DATE_FCFA, 0);
+  
+        this.createOrUpdateChart();
+      });
     }
   }
+  
+  
+  
 
   goBack() {
     this.router.navigate(['/document'])
   }
+
+ 
+  
 
   
   onSupplierChange(): void {
@@ -228,6 +271,10 @@ export class AnalyseDataComponent implements OnInit,AfterViewInit{
   }
 
   onChange() {
+    this.montantTotalFacture = 0;
+    this.montantTotalFacturePayee = 0;
+    this.montantTotalFactureImpaye = 0;
+
     this.service.getItemsInvoice().subscribe(data => {
       this.items = data;
       this.totalFacture=data.length;
